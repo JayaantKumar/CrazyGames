@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg-primary: #0f1014; /* CrazyGames style dark bg */
+  --color-bg-secondary: #1b1e24;
+  --color-accent: #6c5ce7; /* Gaming purple */
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar for gaming feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
