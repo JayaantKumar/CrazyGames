@@ -1,58 +1,35 @@
 import React from 'react';
-import * as FM from "framer-motion";
 import { useGames } from '../hooks/useGames';
-import GameCard from '../components/GameCard';
-
-const { motion } = FM;
+import VideoGameCard from '../components/VideoGameCard';
 
 const Home = () => {
   const { games, loading } = useGames();
 
-  if (loading) return <div className="text-white text-center p-20">Loading crazy world...</div>;
-
-  // Hero logic: Get the first game as the featured one
-  const featuredGame = games[0]; 
+  if (loading) return <div className="p-20 text-center text-gray-500">Loading Arcade...</div>;
 
   return (
-    <div className="min-h-screen pb-20">
-      {/* Dynamic Hero Section */}
-      {featuredGame && (
-        <div className="relative h-[60vh] w-full overflow-hidden flex items-end">
-            {/* Background */}
-            <div className="absolute inset-0">
-                <img src={featuredGame.bannerUrl} className="w-full h-full object-cover" alt="Hero" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0f1014] via-[#0f1014]/50 to-transparent" />
-            </div>
-            
-            {/* Content */}
-            <div className="relative z-10 container mx-auto px-6 pb-12">
-                <motion.h1 
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="text-5xl md:text-7xl font-black text-white mb-4"
-                >
-                    {featuredGame.title}
-                </motion.h1>
-                <p className="text-gray-300 text-xl mb-6 max-w-2xl">{featuredGame.description}</p>
-                <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-bold text-lg transition-transform hover:scale-105">
-                    Play Now
-                </button>
-            </div>
-        </div>
-      )}
+    <div className="p-6 pt-24">
+      {/* Featured Section (Optional - kept smaller now) */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-black text-white mb-4 flex items-center gap-2">
+           <span className="text-purple-500">Recommended</span> For You
+        </h2>
+      </div>
 
-      {/* Game Grid */}
-      <div className="container mx-auto px-6 mt-12">
-        <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-white">New Games</h2>
-            <button className="text-purple-400 hover:text-purple-300">View All</button>
-        </div>
+      {/* THE DENSE GRID */}
+      {/* Grid adapts: 2 cols on mobile -> 3 -> 4 -> 5 -> 6 on huge screens */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+        {games.map((game) => (
+          <VideoGameCard key={game.id} game={game} />
+        ))}
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {games.map((game) => (
-                <GameCard key={game.id} game={game} />
-            ))}
-        </div>
+        {/* Mocking extra cards to fill the UI for visual testing if you only have 1 game */}
+        {games.length < 10 && games.map((game, i) => (
+             <VideoGameCard key={`${game.id}-duplicate-${i}`} game={{...game, id: `${game.id}-${i}`}} />
+        ))}
+         {games.length < 10 && games.map((game, i) => (
+             <VideoGameCard key={`${game.id}-duplicate-2-${i}`} game={{...game, id: `${game.id}-2-${i}`}} />
+        ))}
       </div>
     </div>
   );
